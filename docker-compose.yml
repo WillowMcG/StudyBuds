@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - FIREBASE_ADMIN_SDK=/app/studybuds-firebase-adminsdk.json
+    volumes:
+      - ./backend:/app
+      - ./backend/studybuds-firebase-adminsdk.json:/app/studybuds-firebase-adminsdk.json
+    depends_on:
+      - frontend
+    command: npm run start
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    command: npm start
