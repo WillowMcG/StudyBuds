@@ -1,8 +1,7 @@
-version: '3'
-
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
     ports:
       - "3001:3000"
     environment:
@@ -12,12 +11,11 @@ services:
     volumes:
       - ./backend:/app
       - ./backend/studybuds-firebase-adminsdk.json:/app/studybuds-firebase-adminsdk.json
-    depends_on:
-      - frontend
     command: npm run start
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
     ports:
       - "3000:3000"
     environment:

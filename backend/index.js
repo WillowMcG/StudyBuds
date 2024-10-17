@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const admin = require('firebase-admin');
-const serviceAccount = require('./firebaseServiceAccountKey.json');
+const serviceAccount = require('./studybuds-firebase-adminsdk.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -17,6 +17,14 @@ const app = express();
 
 const playFabTitleId = process.env.PLAYFAB_TITLE_ID;
 const playFabSecretKey = process.env.PLAYFAB_SECRET_KEY;
+
+app.get('/', (req, res) => {
+    res.send('Backend is running');
+});
+
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'Hello from backend!' });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
