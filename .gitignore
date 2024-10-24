@@ -7,6 +7,9 @@ backend/.env
 # Ignore Firebase service account key
 backend/studybuds-firebase-adminsdk.json
 
+# ignore just in case
+frontend/.env
+
 # Ignore build
 build/
  
