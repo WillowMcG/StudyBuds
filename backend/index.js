@@ -6,6 +6,7 @@ const serviceAccount = require('./studybuds-firebase-adminsdk.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.FIREBASE_DATABASE_URL
+
 });
 
 const db = admin.database();
@@ -14,7 +15,11 @@ db.goOnline();
 const express = require('express');
 const dayjs = require('dayjs');
 const axios = require('axios');
+//const { default: firebase } = require('firebase/compat/app');
 const app = express(); 
+
+const auth = admin.auth();
+
 
 //const playFabTitleId = process.env.PLAYFAB_TITLE_ID;
 //const playFabSecretKey = process.env.PLAYFAB_SECRET_KEY;
@@ -53,7 +58,24 @@ app.get(`/api/users/:userId`, (req, res) => {
     })
 });
 
+app.get('/', (req, res) => {
+    res.send('Backend is running');
+});
 
+/*
+Doesn't work yet
+app.get(`/api/auth`, (req, res) => {
+    const userEmail = req.query.userEmail;
+    const userPass = req.query.userPass;
+
+    var cred = auth.signInWithEmailAndPassword(userEmail, userPass);
+    //console.log(ref.once("value"))
+
+    cred.get().then(function(credential) {
+        res.json({ credential });
+    })
+});
+*/
 
 /* ----- API - PATCH ----- */
 
