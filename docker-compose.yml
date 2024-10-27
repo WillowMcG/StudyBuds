@@ -5,7 +5,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PORT=3000
       - FIREBASE_ADMIN_SDK=/app/studybuds-firebase-adminsdk.json
     volumes:
