@@ -1,0 +1,106 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url("abstract-horizontal-modern-background-with-a-field-of-grass-and-flowers-vector.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.log-in-wrapper{
+    width: 420px;
+    background: #e4f2ce;
+    color: #bacaa6;
+    border-radius: 10px;
+    padding: 30px 40px;
+
+}
+.log-in-wrapper h1{
+    font-size: 38px;
+    text-align: center;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+}
+.log-in-wrapper .input-box{
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    /*background: white;*/
+    margin: 30px 0;
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid rgba(50, 49, 49, 0.32);
+    border-radius: 40px;
+    font-size: 16px;
+    color: black;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder{
+    color: black;
+}
+
+.log-in-wrapper .remember-user-and-forgot-password{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-user-and-forgot-password label input{
+    accent-color: black;
+    margin-right: 3px;
+}
+
+.remember-user-and-forgot-password a{
+    color: black;
+    text-decoration: none;
+}
+
+.remember-user-and-forgot-password a:hover{
+    text-decoration: underline;
+}
+
+.log-in-wrapper .login-button{
+    width: 80%;
+    height: 45px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: black;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.log-in-wrapper .sign-up{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.sign-up p a{
+    color: black;
+    text-decoration: none;
+}
+
+.sign-up p a:hover{
+    text-decoration: underline;
+}
