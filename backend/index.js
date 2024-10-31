@@ -1,33 +1,76 @@
 require('dotenv').config();
+const cors = require('cors');
 
 const admin = require('firebase-admin');
 const serviceAccount = require('./studybuds-firebase-adminsdk.json');
 
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    appId: process.env.FIREBASE_APP_ID,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+};
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.FIREBASE_DATABASE_URL
-
 });
 
+// use admin for db access
 const db = admin.database();
 db.goOnline();
+
 
 const express = require('express');
 const dayjs = require('dayjs');
 const axios = require('axios');
-//const { default: firebase } = require('firebase/compat/app');
 const app = express(); 
+const fireclient = require('firebase/app');
+const { createUserWithEmailAndPassword, signInWithEmailAndPassword, AuthCredential, getAuth,  } = require('firebase/auth');
+app.use(cors());
 
-const auth = admin.auth();
+const clientApp = fireclient.initializeApp(firebaseConfig);
+const clientAuth = getAuth(clientApp);
 
+require('firebase/auth')
+
+// and client app for auth
 
 //const playFabTitleId = process.env.PLAYFAB_TITLE_ID;
 //const playFabSecretKey = process.env.PLAYFAB_SECRET_KEY;
 
 /* ----- HELPER FUNCTIONS ----- */
 
-function getDebugData(dataSnap, req, messageVal='Hello from backend!') {
+function getDebugDataSnap(dataSnap, req, messageVal='Hello from backend! (Snap)') {
     var dataVal = dataSnap.val();
+    var debugData = { 
+        message: messageVal,
+        paramaters: req.params,
+        urlArgs: req.query,
+        data: dataVal
+    };
+    return debugData
+}
+
+
+function getDebugDataUserJSON(userJSON, req, messageVal='Hello from backend! (Cred)') {
+    var dataVal = userJSON;
+    var debugData = { 
+        message: messageVal,
+        paramaters: req.params,
+        urlArgs: req.query,
+        data: { 
+            uid: dataVal.uid, 
+            providerData: dataVal.providerData
+        }
+    };
+    return debugData
+}
+
+function getDebugDataErr(errorval, req, messageVal='There was a problem!') {
+    var dataVal = errorval;
     var debugData = { 
         message: messageVal,
         paramaters: req.params,
@@ -53,29 +96,31 @@ app.get(`/api/users/:userId`, (req, res) => {
     //console.log(ref.once("value"))
 
     ref.get().then(function(dataSnap) {
-        var debData = getDebugData(dataSnap, req);
+        var debData = getDebugDataSnap(dataSnap, req);
         res.json(debData);
     })
 });
 
+// ???
 app.get('/', (req, res) => {
     res.send('Backend is running');
 });
 
-/*
-Doesn't work yet
+// ???
 app.get(`/api/auth`, (req, res) => {
     const userEmail = req.query.userEmail;
     const userPass = req.query.userPass;
+    const userCredPromise = signInWithEmailAndPassword(clientAuth, userEmail, userPass);
 
-    var cred = auth.signInWithEmailAndPassword(userEmail, userPass);
-    //console.log(ref.once("value"))
-
-    cred.get().then(function(credential) {
-        res.json({ credential });
+    userCredPromise.then(function(userCred) {
+        var debData = getDebugDataUserJSON(userCred.user.toJSON(), req);
+        res.json(debData);
+    }).catch(function(err) {
+        var debData = getDebugDataErr(err, req);
+        res.json(debData);
     })
 });
-*/
+
 
 /* ----- API - PATCH ----- */
 
@@ -100,7 +145,7 @@ app.patch(`/api/users/:userId`, (req, res) => {
     }};
 
     existanceRef.get().then(function(dataSnap) {
-        var debData = getDebugData(dataSnap, req);
+        var debData = getDebugDataSnap(dataSnap, req);
         if (debData.data != null) {
             debData.message = "ERROR";
             debData.data = "User with that ID/Email already exists";
@@ -109,7 +154,7 @@ app.patch(`/api/users/:userId`, (req, res) => {
         else{
             newPlaceRef.update(newUserData).then(function() {
                 existanceRef.get().then(function(innerDataSnap) {
-                    var innerDebData = getDebugData(innerDataSnap, req);
+                    var innerDebData = getDebugDataSnap(innerDataSnap, req);
                     res.json(innerDebData);
                 })
             })

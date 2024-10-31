@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
+import { getUserCred, addNewUser } from "../backcon/authapi";
+import UserAccessor from "./../backcon/userapi";
 // import "./../backcon/authapi" Not done
 
 // setup taken from https://www.geeksforgeeks.org/how-to-create-a-multi-page-website-using-react-js/
@@ -15,10 +17,12 @@ const Login = () => {
         const form = event.currentTarget;
         const email = form.email.value;
         const password = form.password.value;
-        //const auth = AuthAccessor(); Not working, keep on tweekin'
-        //var val = auth.addNewUser(email, password);
-        setData(email)
-        alert(`Your email is '${email}'`);
+        getUserCred(email, password).then(function(jsonResp) {
+            setData(jsonResp);
+            alert(`Your email is '${jsonResp}'`);
+        })
+        //var val = auth.addNewUser(email, password)
+        
     };
     return (
         <div class="log-in-wrapper">
