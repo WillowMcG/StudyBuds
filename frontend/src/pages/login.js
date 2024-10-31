@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
 import { getUserCred, addNewUser } from "../backcon/authapi";
-import UserAccessor from "./../backcon/userapi";
+import { getUserData } from "./../backcon/userapi";
 // import "./../backcon/authapi" Not done
 
 // setup taken from https://www.geeksforgeeks.org/how-to-create-a-multi-page-website-using-react-js/
@@ -17,9 +17,22 @@ const Login = () => {
         const form = event.currentTarget;
         const email = form.email.value;
         const password = form.password.value;
-        getUserCred(email, password).then(function(jsonResp) {
-            setData(jsonResp);
-            alert(`Your email is '${jsonResp}'`);
+        getUserCred(email, password).then(function(credjsonResp) {
+            const uid = credjsonResp.data.uid;
+            if(uid) {
+                getUserData(uid).then(function(datajsonResp) {
+                    setData({
+                        credentials: credjsonResp,
+                        database: datajsonResp
+                    });
+                    alert(`You were found in our database! Hello ${datajsonResp.data.name}!`);
+                })
+            } else {
+                setData(credjsonResp);
+                alert(`You were not found in our database!`);
+            }
+            
+            
         })
         //var val = auth.addNewUser(email, password)
         

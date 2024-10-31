@@ -1,10 +1,20 @@
-const baseUrl = "localhost:3001/api/users"
+const baseUrl = "http://localhost:3001/api/users"
 
 // Doesn't work yet
-class UserAccessor{
-    getUserJson(userId) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseUrl}/${userId}`);
-        return xhr.responseText;
+async function getUserData(uid){
+    const options = {
+        method: 'GET'
     }
+
+    var toRet;
+    try{
+        const response = await fetch(`${baseUrl}/${uid}`, options);
+        toRet = await response.json();
+    } catch (err) {
+        toRet = err;
+    }
+    
+    return toRet;
 }
+
+export { getUserData };
