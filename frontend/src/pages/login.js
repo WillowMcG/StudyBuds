@@ -62,7 +62,7 @@ const Login = () => {
                 <button type="submit" class="login-button">Login</button>
 
                 <div class="sign-up">
-                    <p>New to StudyBuds? <a href="#">Sign Up!</a></p>
+                    <p>New to StudyBuds? <a href="sign-up">Sign Up!</a></p>
                 </div>
             </form>
         </div>

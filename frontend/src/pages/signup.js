@@ -54,7 +54,7 @@ const Signup = () => {
                 <button type="submit" class="signup-button">Sign Up</button>
 
                 <div class="log-in">
-                    <p>Already have a StudyBuds Account? <a href="login.html">Log In!</a></p>
+                    <p>Already have a StudyBuds Account? <a href="login">Log In!</a></p>
                 </div>
             </form>
         </div>
