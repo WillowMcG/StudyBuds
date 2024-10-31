@@ -26,6 +26,12 @@ const Login = () => {
                         database: datajsonResp
                     });
                     alert(`You were found in our database! Hello ${datajsonResp.data.name}!`);
+                }).catch(function(err){
+                    setData({
+                        credentials: credjsonResp,
+                        database: err
+                    });
+                    alert(`INVALID USER. AUTH PASSED, USER NOT EXISTING.`);
                 })
             } else {
                 setData(credjsonResp);
