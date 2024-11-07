@@ -11,7 +11,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url("abstract-horizontal-modern-background-with-a-field-of-grass-and-flowers-vector.png") no-repeat;
+    background: url("background.png") no-repeat;
     background-size: cover;
     background-position: center;
 }
