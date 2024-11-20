@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { getUserCred, addNewUser } from "../backcon/authapi";
-import { getUserData } from "./../backcon/userapi";
+import { getUserData } from "./../backcon/databaseapi";
 // import "./../backcon/authapi" Not done
 
 // setup taken from https://www.geeksforgeeks.org/how-to-create-a-multi-page-website-using-react-js/
