@@ -33,6 +33,14 @@ body {
     color: #fff;
 }
 
+.main-wrapper p {
+    font-size: 72px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
 .input-box {
     width: 100%;
     display: flex;

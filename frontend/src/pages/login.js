@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { getUserCred, addNewUser } from "../backcon/authapi";
 import { getUserData } from "./../backcon/userapi";
@@ -10,6 +11,7 @@ import { getUserData } from "./../backcon/userapi";
 const Login = () => {
 
     const [data, setData] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         //const email = formData.get("email");
@@ -26,7 +28,7 @@ const Login = () => {
                         database: datajsonResp
                     });
                     alert(`You were found in our database! Hello ${datajsonResp.data.name}!`);
-                    window.location.assign("main");
+                    navigate("/main", { state: { uid } });
                 }).catch(function(err){
                     setData({
                         credentials: credjsonResp,

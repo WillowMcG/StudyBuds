@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./main.css";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUserCred, addNewUser } from "../backcon/authapi";
 import { getUserData } from "../backcon/userapi";
 // import "./../backcon/authapi" Not done
@@ -8,10 +9,28 @@ import { getUserData } from "../backcon/userapi";
 // Some parts also from https://builtin.com/software-engineering-perspectives/react-api
 
 const Main = () => {
+    const [data, setData] = useState(null);
+    const [name, setName] = useState("");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { uid } = location.state || {};
+
+    if (!uid) {
+        navigate("/login");
+        return null;
+    }
+    getUserData(uid).then((datajsonResp) => {
+        setData(datajsonResp);
+        setName(datajsonResp.data?.name);
+    });
+
     return (
         <div class="main-wrapper">
             <h1>Welcome to StudyBuds!</h1>
-            <button type = "submit"> Play </button>
+            <p>User ID: {name}</p>
+            <button onClick={() => {
+                sessionStorage.clear();
+                navigate("/"); }}>Log Out</button>
         </div>
     );
 };
