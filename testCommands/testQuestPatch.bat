@@ -1,0 +1,1 @@
+curl -X PATCH "http://localhost:3001/api/questions/grade1st/ela/partsOfSpeech/mcNoun" -d "{\"qName\":\"Nouns\",\"qPrompt\":\"Which word is a noun?\",\"qType\":\"ans-mc\",\"seed\":1732809502947,\"selAns\":\"dad\"}" -H "Content-Type: application/json"
