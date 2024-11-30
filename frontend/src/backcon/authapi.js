@@ -1,7 +1,7 @@
 const baseUrl = "http://localhost:3001/api/auth"
 
 // Doesn't work yet
-function addNewUser(email, password) {
+function addNewUser(email, password, grade) {
     
 }
 
