@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./main.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserCred, addNewUser } from "../backcon/authapi";
-import { getUserData } from "../backcon/userapi";
+import { getUserData } from "../backcon/databaseapi";
 // import "./../backcon/authapi" Not done
 
 // setup taken from https://www.geeksforgeeks.org/how-to-create-a-multi-page-website-using-react-js/
@@ -15,22 +15,34 @@ const Main = () => {
     const navigate = useNavigate();
     const { uid } = location.state || {};
 
-    if (!uid) {
-        navigate("/login");
-        return null;
-    }
-    getUserData(uid).then((datajsonResp) => {
-        setData(datajsonResp);
-        setName(datajsonResp.data?.name);
-    });
+    React.useEffect(() => {
+        if (!uid) {
+            navigate("/login");
+        } else {
+            // Fetch user data
+            getUserData(uid).then((datajsonResp) => {
+                setData(datajsonResp);
+                setName(datajsonResp.data?.name || "User");
+            });
+        }
+    }, [uid, navigate]);
+
+    // Render nothing while redirect
+    if (!uid) return null;
 
     return (
-        <div class="main-wrapper">
-            <h1>Welcome to StudyBuds!</h1>
-            <p>User ID: {name}</p>
-            <button onClick={() => {
-                sessionStorage.clear();
-                navigate("/"); }}>Log Out</button>
+        <div className="main-container">
+            <div className="header">
+                <button className="menu-button">&#9776;</button>
+                <button className="arrow-button left-arrow">&#x276E;</button>
+                <h1>Unit 3: Integration By Parts</h1>
+                <button className="arrow-button right-arrow">&#x276F;</button>
+                <p className="score">9,325</p>
+            </div>
+            <div className="content">
+
+                <button className="play-button">Play {name}</button>
+            </div>
         </div>
     );
 };

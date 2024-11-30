@@ -15,50 +15,76 @@ body {
     background-position: center;
 }
 
-.main-wrapper {
-    width: 1000px;
+.main-container {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    color: #333;
-    border-radius: 10px;
-    padding: 30px 40px;
-}
-
-.main-wrapper h1 {
-    font-size: 72px;
-    text-align: center;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: white;
 }
 
-.main-wrapper p {
-    font-size: 72px;
-    text-align: center;
-    justify-content: center;
+.header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    color: #fff;
+    width: 80%;
+    margin-bottom: 20px;
 }
 
-.input-box {
-    width: 100%;
+.menu-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+}
+
+.score {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.content {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 30px 0;
+    width: 100%;
 }
 
-button {
-    width: 50%;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
+.play-button {
     font-size: 18px;
-    background-color: #e3e7db;
-    color: #000000;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-align: center;
+    margin: 0 10px;
+}
+
+.arrow-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.left-arrow {
+    margin-right: 10px;
+}
+
+.right-arrow {
+    margin-left: 10px;
 }
