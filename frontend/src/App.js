@@ -9,6 +9,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Main from "./pages/main";
+import Questions from "./pages/questions"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/questions" element={<Questions />} />
       </Routes>
     </Router>
   );

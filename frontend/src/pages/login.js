@@ -27,7 +27,7 @@ const Login = () => {
                         credentials: credjsonResp,
                         database: datajsonResp
                     });
-                    alert(`You were found in our database! Hello ${datajsonResp.data.name}!`);
+                    alert(`You were found in our database! Hello ${datajsonResp.name}!`);
                     navigate("/main", { state: { uid } });
                 }).catch(function(err){
                     setData({
