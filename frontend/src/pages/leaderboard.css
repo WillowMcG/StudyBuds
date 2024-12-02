@@ -1,35 +1,66 @@
-.home-container {
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", sans-serif;
+}
+body{
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    height: 100vh;
-    color: white;
+    align-items: center;
+    min-height: 100vh;
+    background: url("background.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.leaderboard-wrapper{
+    width: 600px;
+    background: #e4f2ce;
+    color: #bacaa6;
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+.leaderboard-wrapper h1{
+    font-size: 44px;
     text-align: center;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
 }
-
-.title {
-    font-size: 4rem;
-    margin-bottom: 2rem;
+.leaderboard-wrapper .First{
+    font-size: 20px;
+    color: goldenrod;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    padding-top: 40px;
+}
+.leaderboard-wrapper .Points{
+    font-size: 18px;
+    color: black;
+    padding-bottom: 30px;
+    margin-top: -30px;
+    text-align: right;
+}
+.leaderboard-wrapper .Second{
+    font-size: 20px;
+    color: silver;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+}
+.leaderboard-wrapper .Third{
+    font-size: 20px;
+    color: #CD7F32;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+}
+.leaderboard-wrapper .RunnerUps{
+    font-size: 20px;
     color: white;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
 }
-
-.button-group {
-    display: flex;
-    gap: 1rem;
+.leaderboard-wrapper .DotSpace p{
+    font-size: 36px;
+    color: black;
+    text-align: center;
+    margin-top: -10px;
 }
-
-.home-button {
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    color: #000000;
-    background-color: #dbe7f3;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.home-button:hover {
-    background-color: #0056b3;
+.leaderboard-wrapper .YourScore{
+    font-size: 20px;
+    color: lawngreen;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
 }
