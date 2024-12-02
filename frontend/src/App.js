@@ -10,6 +10,7 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Main from "./pages/main";
 import Questions from "./pages/questions"
+import Leaderboard from "./pages/leaderboard"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/main" element={<Main />} />
         <Route path="/questions" element={<Questions />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>
   );

@@ -66,14 +66,14 @@ const Main = () => {
 
     return (
         <div className="main-container">
-            <div className="header">
-                <button className="menu-button">&#9776;</button>
-                <h1>{
-                    (courses && selectedCourseIndex) ? courses[selectedCourseIndex].name : 'Loading...'
-                    }</h1>
-                <p className="score">9,325</p>
-                <button className="logout" onClick={logout}> Logout</button>
-            </div>
+            <nav className="hidden-navbar">
+                <div className="header">
+                    <button className="menu-button">&#9776;</button>
+                    <h1>{(courses && selectedCourseIndex) ? courses[selectedCourseIndex].name : 'Loading...'}</h1>
+                    <p className="score">9,325</p>
+                    <button className="logout" onClick={logout}>Logout</button>
+                </div>
+            </nav>
             <div className="menu-dropdown">
                 <ul>
                     {Object.keys((course, index) => (
