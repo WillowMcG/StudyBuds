@@ -4,9 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData, getGradeData } from "../backcon/databaseapi";
 
 const Main = () => {
+    const [data, setData] = useState(null);
     const [courses, setCourses] = useState([]);
     const [selectedCourseIndex, setSelectedCourseIndex] = useState(null);
-    const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
+    const [selectedTopicIndex, setSelectedTopicIndex] = useState(0); 
     const [topics, setTopics] = useState([]);
     const [name, setName] = useState("");
     const [grade, setGrade] = useState(null);
@@ -21,15 +22,32 @@ const Main = () => {
             // Load information
             getUserData(uid)
                 .then((datajsonResp) => {
+                    setData(datajsonResp);
                     setName(datajsonResp.name || "User");
                     setGrade(datajsonResp.grade);
-                    setCourses(getGradeData(datajsonResp.grade).courses);
+
+                    const gradeData = getGradeData(datajsonResp.grade);
+                    setCourses(gradeData["courses"]);
                 })
                 .catch((error) => {
                     console.error("Error loading data:", error);
                 });
         }
     }, [uid, navigate]);
+
+    useEffect(() => {
+        if (courses && courses["ela"]) {
+            setSelectedCourseIndex(courses["ela"]);
+            alert(selectedCourseIndex.courseName);
+        }
+    }, [courses]);
+    
+    useEffect(() => {
+        if (selectedCourseIndex !== null && courses[selectedCourseIndex]?.topics) {
+            setTopics(courses[selectedCourseIndex].topics || []);
+            setSelectedTopicIndex(0); 
+        }
+    }, [selectedCourseIndex, courses]);
 
     const handleCourseSelection = (index) => {
         alert(index);
@@ -64,13 +82,24 @@ const Main = () => {
         navigate("/");
     }
 
+    const leaderboard = () => {
+        navigate("/leaderboard", {
+            state: {
+                uid,
+                grade
+            },
+        });
+    };
     return (
         <div className="main-container">
             <nav className="hidden-navbar">
                 <div className="header">
                     <button className="menu-button">&#9776;</button>
-                    <h1>{(courses && selectedCourseIndex) ? courses[selectedCourseIndex].name : 'Loading...'}</h1>
+                    <h1>{grade}</h1>
+                    <h1>{selectedCourseIndex !== null && courses[selectedCourseIndex] ? 
+                    courses[selectedCourseIndex].courseName : 'Select a Course'}</h1>
                     <p className="score">9,325</p>
+                    <button className="leaderboard" onClick={leaderboard}>Leaderboard</button>
                     <button className="logout" onClick={logout}>Logout</button>
                 </div>
             </nav>
@@ -84,10 +113,11 @@ const Main = () => {
             <div className="content">
                 <button className="arrow-button left-arrow" onClick={handlePreviousTopic}> &#x276E;</button>
                 <div className="topic-display">
-                    {topics[selectedTopicIndex]?.name || "Loading..."}
+                    {topics[selectedTopicIndex]?.name || "Select Course for Topics"}
                 </div>
                 <button className="arrow-button right-arrow" onClick={handleNextTopic}> &#x276F;</button>
             </div>
+            <h1>Hello {name}</h1>
             <button className="play-button" onClick={handlePlay}> Play </button>
         </div>
     );

@@ -45,20 +45,15 @@ body {
     top: 0;
     left: 0;
     width: 100%; 
-    height: 60px; 
-    background-color: rgba(0, 0, 0, 0.8); 
+    height: 60px;
     color: white; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    opacity: 0; 
+    opacity: 1; 
     transition: opacity 0.3s ease; 
     z-index: 1000; 
-}
-
-.hidden-navbar:hover {
-    opacity: 1;
 }
 
 .hidden-navbar .header h1 {
@@ -66,6 +61,15 @@ body {
 }
 
 .hidden-navbar .menu-button,
+
+.hidden-navbar .leaderboard {
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
 .hidden-navbar .logout {
     font-size: 18px;
     background: none;
