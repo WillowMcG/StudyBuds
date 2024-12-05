@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./main.css";
+import flower from "./flower.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData, getGradeData } from "../backcon/databaseapi";
 
@@ -127,6 +128,7 @@ const Main = () => {
                 <button className="arrow-button right-arrow" onClick={handleNextTopic}> &#x276F;</button>
             </div>
             <h1>Hello {name}</h1>
+            <img src={flower} alt="Question Visual" className="question-image" />
             <button className="play-button" onClick={handlePlay}> Play </button>
         </div>
     );

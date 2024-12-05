@@ -51,7 +51,8 @@ const Questions = () => {
     const handleAnswer = (answer) => {
         curQuestion["selAns"] = answer;
         const questionId = Object.keys(questions)[index];
-        checkQuestion(grade, selectedCourseId, selectedTopicId, questionId, curQuestion, uid).then(function(givenResp){
+        //alert(JSON.stringify(curQuestion));
+        checkQuestion(gradeId, selectedCourseId, selectedTopicId, questionId, curQuestion, uid).then(function(givenResp){
             const ans = givenResp;
             if (ans.passed == true){
                 setScore(score + 1);

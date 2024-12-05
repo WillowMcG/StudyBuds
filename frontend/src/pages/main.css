@@ -156,6 +156,12 @@ body {
     background-color: #ddd;
 }
 
+.question-image {
+    width: 100px;
+    height: auto;
+}
+
+
 .topic-display {
     font-size: 18px;
     color: white;
