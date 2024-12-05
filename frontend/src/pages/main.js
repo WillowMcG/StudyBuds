@@ -78,11 +78,11 @@ const Main = () => {
     const handlePlay = () => {
         navigate("/questions", {
             state: {
-                userData,
+                uid,
                 grade,
                 selectedCourseId,
                 selectedTopicId,
-                questions: courses[selectedCourseId]["topic"][selectedTopicId]["questions"]
+                questions: courses[selectedCourseId]["topics"][selectedTopicId]["questions"]
             },
         });
     };

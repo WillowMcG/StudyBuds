@@ -1,28 +1,65 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import "./questions.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getQuestion } from "../backcon/databaseapi";
+
+var questionsData = [];
+//var curQuestion;
 
 const Questions = () => {
-    const { state } = useLocation();
-    const { grade, courseId, topicId } = state || {};
-    const [questions, setQuestions] = useState([]);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const {
+        questions = [],
+        grade,
+        selectedCourseId,
+        selectedTopicId,
+        uid,
+    } = location.state || {};
+
+    const [score, setScore] = useState(0);
+    const [index, setIndex] = useState(0);
+    const [curQuestion, setCurQuestion] = useState(null);
+    const [prompt, setPrompt] = useState("Loading");
 
     useEffect(() => {
-        if (grade && courseId && topicId) {
-            axios
-                .get(`/api/questions/${grade}/${courseId}/${topicId}`)
-                .then((response) => setQuestions(response.data));
+        if (!uid) {
+            navigate("/login");
+        } else {
+            for (let i = 0; i < questions.length; i++) {
+                const questionId = questions[i];
+                getQuestion(
+                    grade,
+                    selectedCourseId,
+                    selectedTopicId,
+                    questionId
+                ).then(function(givenQData){
+                    questionsData.push(givenQData);
+                    const qIndex = Object.keys(questionsData)[index];
+                    setCurQuestion(questionsData[qIndex]);
+                    setPrompt(curQuestion.qPrompt);
+                });
+            }
+            
         }
-    }, [grade, courseId, topicId]);
+    }, [grade, selectedCourseId, selectedTopicId, questions, questionsData, curQuestion]);
+
+    
+    const handleAnswer = (isCorrect) => {
+        
+    };
 
     return (
-        <div>
-            <h1>Questions</h1>
-            {questions.map((question, index) => (
-                <div key={index}>
-                    <p>{question.qName}</p>
-                </div>
-            ))}
+        <div className="questions-container">
+            <h1>{grade}</h1>
+            <h2>{selectedCourseId} - {selectedTopicId} Score: {score}</h2>
+            <div className="question-prompt">
+                <h3>{prompt}</h3>
+            </div>
+            <div className="progress">
+                Question {index + 1} of {questions.length}
+            </div>
         </div>
     );
 };
