@@ -278,13 +278,11 @@ app.patch(`/api/questions/:grade/:courseId/:topicId/:questId`, (req, res) => {
         var dataVal = dataSnap.val();
         var successData = questParsing.checkQuestion(dataVal, passedData);
         if (successData["passed"]) {
-            newPlaceRef.update(newUserData);
+            newPlaceRef.update(newPointsData);
         }
         res.json(successData);
     });
 });
-
-
 
 /* ----- API - DELETE ----- */
 
