@@ -200,10 +200,11 @@ app.get(`/api/auth`, (req, res) => {
 
 // Adds a new user (Needs userId from Auth, userName, and userEmail)
 app.patch(`/api/users/:userId`, (req, res) => {
-    const userId = req.params.id;
-    const userName = req.query.name;
-    const userEmail = req.query.email;
-    const userGrade = req.query.grade;
+    const userId = req.params.userId;
+    const userName = req.body.name;
+    const userEmail = req.body.email;
+    const userGrade = req.body.grade;
+    const progressData = req.body.progressData;
 
     var existanceRef = db.ref(`dev/users/${userId}`)
     var newPlaceRef = db.ref("dev/users")
@@ -212,8 +213,10 @@ app.patch(`/api/users/:userId`, (req, res) => {
         name: userName,
         email: userEmail,
         grade: userGrade,
-        progress: {}
+        progress: progressData
     }};
+
+    // console.log(newUserData)
 
     existanceRef.get().then(function(dataSnap) {
         var debData = getDebugDataSnap(dataSnap, req);
@@ -233,6 +236,20 @@ app.patch(`/api/users/:userId`, (req, res) => {
     })
 });
 
+app.patch(`/api/auth`, (req, res) => {
+    const userEmail = req.body["email"];
+    const userPass = req.body["password"];
+    const userCredPromise = createUserWithEmailAndPassword(clientAuth, userEmail, userPass);
+
+    userCredPromise.then(function(userCred) {
+        var debData = getDebugDataUserJSON(userCred.user.toJSON(), req);
+        res.json(debData);
+    }).catch(function(err) {
+        var debData = getDebugDataErr(err, req);
+        res.json(debData);
+    })
+});
+
 app.patch(`/api/questions/:grade/:courseId/:topicId/:questId`, (req, res) => {
     const grade = req.params.grade;
     const courseId = req.params.courseId;
@@ -248,7 +265,6 @@ app.patch(`/api/questions/:grade/:courseId/:topicId/:questId`, (req, res) => {
             [courseId]: {
                 [topicId]: {
                     [questId]: {
-                        timePassed: Math.floor(Date.now() / (1000*60*60*24)),
                         points: 1
                     }
                 }
@@ -272,11 +288,11 @@ app.patch(`/api/questions/:grade/:courseId/:topicId/:questId`, (req, res) => {
 
 /* ----- API - DELETE ----- */
 
-// Deletes a new user (Needs userId from Auth)
+// Clears a user's progress
 app.delete(`/api/users/:userId`, (req, res) => {
     const userId = req.params.userId;
 
-    var ref = db.ref(`dev/users/${userId}`)
+    var ref = db.ref(`dev/users/${userId}/progress`)
     //console.log(ref.once("value"))
 
     ref.get().then(function(dataSnap) {
@@ -287,7 +303,7 @@ app.delete(`/api/users/:userId`, (req, res) => {
             res.json(debData);
         }
         else{
-            ref.remove().then(function() {
+            ref.remove(function() {
                 res.json(debData);
             })
         }

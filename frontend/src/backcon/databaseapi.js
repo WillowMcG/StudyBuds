@@ -24,7 +24,7 @@ async function createNewUserData(uid, name, email, grade, progressData={}){
             "Content-Type": "application/json",
         },
         method: 'PATCH',
-        body: JSON.stringify({})
+        body: JSON.stringify({name, email, grade, progressData})
     }
 
     var toRet;

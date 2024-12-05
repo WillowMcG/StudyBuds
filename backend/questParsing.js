@@ -40,6 +40,27 @@ module.exports = {
                 
                 return questData;
                 break;
+            case "pair-mc":
+                // NOT YET IMPLEMENTED
+                break;
+            case "pair-ti":
+                // NOT YET IMPLEMENTED
+                break;
+            case "random-mc":
+                // NOT YET IMPLEMENTED
+                break;
+            case "random-ti":
+                // NOT YET IMPLEMENTED
+                break;
+            case "spec-mc":
+                // NOT YET IMPLEMENTED
+                break;
+            case "pair-gv":
+                // NOT YET IMPLEMENTED
+                break;
+            case "multispec-mc":
+                // NOT YET IMPLEMENTED
+                break;
             default:
                 return ["hello world!"];
                 break;
@@ -60,6 +81,27 @@ module.exports = {
                     passed: theAns == selAns,
                     corAns: theAns
                 };
+                break;
+            case "pair-mc":
+                // NOT YET IMPLEMENTED
+                break;
+            case "pair-ti":
+                // NOT YET IMPLEMENTED
+                break;
+            case "random-mc":
+                // NOT YET IMPLEMENTED
+                break;
+            case "random-ti":
+                // NOT YET IMPLEMENTED
+                break;
+            case "spec-mc":
+                // NOT YET IMPLEMENTED
+                break;
+            case "pair-gv":
+                // NOT YET IMPLEMENTED
+                break;
+            case "multispec-mc":
+                // NOT YET IMPLEMENTED
                 break;
             default:
                 return ["hello world!"];
