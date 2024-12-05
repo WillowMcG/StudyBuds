@@ -41,7 +41,23 @@ module.exports = {
                 return questData;
                 break;
             case "pair-mc":
-                // NOT YET IMPLEMENTED
+                var corAns = structuredClone(questData["corAns"]);
+                var qVal = structuredClone(questData["qVal"]);
+                delete questData["corAns"];
+                delete questData["qVal"];
+
+                for (let i = 0; i < Object.keys(qVal); i++) {
+                    const qKey = Object.keys(qVal)[i];
+                    questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed));
+                }
+
+                questData["seed"] = seed;
+                
+                questData["ans"] = corAns;
+
+                shuffleArray(questData["ans"], seed);
+                
+                return questData;
                 break;
             case "pair-ti":
                 // NOT YET IMPLEMENTED
@@ -68,22 +84,29 @@ module.exports = {
     },
 
     checkQuestion(oldQuestData, questAnswered) {
+        const seed = questAnswered["seed"];
         switch(oldQuestData["qType"]){
             case "ans-mc":
                 var selAns = structuredClone(questAnswered["selAns"]);
                 var corAns = structuredClone(oldQuestData["corAns"]);
 
-                const seed = questAnswered["seed"];
-
-                const theAns = getRandomEntry(corAns, seed);
+                const ansmcsol = getRandomEntry(corAns, seed);
 
                 return {
-                    passed: theAns == selAns,
-                    corAns: theAns
+                    passed: ansmcsol == selAns,
+                    corAns: ansmcsol
                 };
                 break;
             case "pair-mc":
-                // NOT YET IMPLEMENTED
+                var selAns = structuredClone(questAnswered["selAns"]);
+                var corAns = structuredClone(oldQuestData["corAns"]);
+                
+                const pairmcsol = getRandomEntry(corAns, seed);
+
+                return {
+                    passed: pairmcsol == selAns,
+                    corAns: pairmcsol
+                };
                 break;
             case "pair-ti":
                 // NOT YET IMPLEMENTED
