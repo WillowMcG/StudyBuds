@@ -63,19 +63,90 @@ module.exports = {
                 // NOT YET IMPLEMENTED
                 break;
             case "random-mc":
-                // NOT YET IMPLEMENTED
+                /*
+                var corAns = structuredClone(questData["corAns"]);
+                var incAns = structuredClone(questData["incAns"]);
+                var qVal = structuredClone(questData["qVal"]);
+                delete questData["corAns"];
+                delete questData["incAns"];
+                delete questData["qVal"];
+
+                var newIncAns = [];
+                for (let i = incAns["min"]; i < incAns["max"]; i++) {
+                    newIncAns.push(i);
+                }
+
+                var scope = {};
+
+                for (let i = 0; i < Object.keys(qVal); i++) {
+                    const qKey = Object.keys(qVal)[i];
+                    scope[qKey] = Math.eval('cos(45 deg)');
+                    questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed));
+                }
+
+                questData["seed"] = seed;
+                
+                questData["ans"] = [];
+
+                questData["ans"].push(
+                    getRandomEntry(corAns, seed), 
+                    getRandomEntry(newIncAns, seed+1), 
+                    getRandomEntry(newIncAns, seed+2), 
+                    getRandomEntry(newIncAns, seed+3));
+
+                shuffleArray(questData["ans"], seed);
+                
+                return questData;
+                */
                 break;
             case "random-ti":
                 // NOT YET IMPLEMENTED
                 break;
             case "spec-mc":
-                // NOT YET IMPLEMENTED
+                var corAns = structuredClone(questData["corAns"]);
+                var incAns = structuredClone(questData["incAns"]);
+                var qVal = structuredClone(questData["qVal"]);
+                delete questData["corAns"];
+                delete questData["incAns"];
+                delete questData["qVal"];
+
+                for (let i = 0; i < Object.keys(qVal); i++) {
+                    const qKey = Object.keys(qVal)[i];
+                    questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed));
+                }
+
+                questData["seed"] = seed;
+                
+                questData["ans"] = [getRandomEntry(corAns, seed), ...getRandomEntry(incAns, seed)];
+
+                shuffleArray(questData["ans"], seed);
+                
+                return questData;
                 break;
             case "pair-gv":
                 // NOT YET IMPLEMENTED
                 break;
             case "multispec-mc":
-                // NOT YET IMPLEMENTED
+                var corAns = structuredClone(questData["corAns"]);
+                var incAns = structuredClone(questData["incAns"]);
+                var qVal = structuredClone(questData["qVal"]);
+                delete questData["corAns"];
+                delete questData["incAns"];
+                delete questData["qVal"];
+
+                questData["qPrompt"] = getRandomEntry(questData["qPrompt"], seed);
+                for (let i = 0; i < Object.keys(qVal); i++) {
+                    const qKey = Object.keys(qVal)[i];
+                    questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed+1));
+                }
+
+                questData["seed"] = seed;
+                
+                questData["ans"] = [getRandomEntry(getRandomEntry(corAns, seed+1), seed), ...getRandomEntry(incAns, seed)];
+
+                shuffleArray(questData["ans"], seed);
+                
+                return questData;
                 break;
             default:
                 return ["hello world!"];
@@ -100,7 +171,7 @@ module.exports = {
             case "pair-mc":
                 var selAns = structuredClone(questAnswered["selAns"]);
                 var corAns = structuredClone(oldQuestData["corAns"]);
-                
+
                 const pairmcsol = getRandomEntry(corAns, seed);
 
                 return {
@@ -118,13 +189,29 @@ module.exports = {
                 // NOT YET IMPLEMENTED
                 break;
             case "spec-mc":
-                // NOT YET IMPLEMENTED
+                var selAns = structuredClone(questAnswered["selAns"]);
+                var corAns = structuredClone(oldQuestData["corAns"]);
+
+                const specmcsol = getRandomEntry(corAns, seed);
+
+                return {
+                    passed: specmcsol == selAns,
+                    corAns: specmcsol
+                };
                 break;
             case "pair-gv":
                 // NOT YET IMPLEMENTED
                 break;
             case "multispec-mc":
-                // NOT YET IMPLEMENTED
+                var selAns = structuredClone(questAnswered["selAns"]);
+                var corAns = structuredClone(oldQuestData["corAns"]);
+
+                const multispecmcsol = getRandomEntry(getRandomEntry(corAns, seed+1), seed);
+
+                return {
+                    passed: multispecmcsol == selAns,
+                    corAns: multispecmcsol
+                };
                 break;
             default:
                 return ["hello world!"];
