@@ -60,6 +60,7 @@ const Questions = () => {
                 const qIndex = Object.keys(questionsData)[index];
                 curQuestion = questionsData[qIndex];
                 setPrompt(curQuestion.qPrompt);
+                alert("Correct!");
             } else {
                 alert("Incorrect, try again!");
             }
