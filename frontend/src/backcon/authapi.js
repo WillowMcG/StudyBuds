@@ -30,4 +30,4 @@ async function getUserCred(email, password) {
 }
 
 
-export { addNewUser, getUserCred };
+export { addNewAccount, getUserCred };

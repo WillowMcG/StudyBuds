@@ -19,6 +19,24 @@ async function getUserData(uid){
 
 async function createNewUserData(uid, name, email, grade, progressData={}){
     // TO BE IMPLEMENTED. CALL addNewAccount IN authapi.js THEN CALL THIS
+    const options = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: 'PATCH',
+        body: JSON.stringify({})
+    }
+
+    var toRet;
+    try{
+        const response = await fetch(`${baseUrl}users/${uid}`, options);
+        toRet = await response.json();
+    } catch (err) {
+        toRet = err;
+    }
+    
+    return toRet;
+    // TO BE IMPLEMENTED. CALL addNewAccount IN authapi.js THEN CALL THIS
 }
 
 // Pass in the grade found in the user data from above
@@ -83,4 +101,4 @@ function getTotalPointsFromUserData(userData){
     // TO BE IMPLEMENTED
 }
 
-export { getUserData, getGradeData, getQuestion, checkQuestion, getTotalPointsFromUserData };
+export { getUserData, createNewUserData, getGradeData, getQuestion, checkQuestion, getTotalPointsFromUserData };

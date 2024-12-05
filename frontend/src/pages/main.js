@@ -82,7 +82,7 @@ const Main = () => {
                 grade,
                 selectedCourseId,
                 selectedTopicId,
-                questions: courses[Object.keys(courses)[selectedCourseId]]["topic"][selectedTopicId]["questions"]
+                questions: courses[selectedCourseId]["topic"][selectedTopicId]["questions"]
             },
         });
     };
