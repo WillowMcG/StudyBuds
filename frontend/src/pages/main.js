@@ -3,14 +3,21 @@ import "./main.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserData, getGradeData } from "../backcon/databaseapi";
 
+var courseIndex = 0;
+var topicIndex = 0;
+var courses;
+var topics = null;
+var gradeData;
+var gradeId;
+var selectedCourseId;
+var selectedTopicId;
+
 const Main = () => {
-    const [data, setData] = useState(null);
-    const [courses, setCourses] = useState([]);
-    const [selectedCourseIndex, setSelectedCourseIndex] = useState(null);
-    const [selectedTopicIndex, setSelectedTopicIndex] = useState(0); 
-    const [topics, setTopics] = useState([]);
+    const [userData, setUserData] = useState(null);
     const [name, setName] = useState("");
     const [grade, setGrade] = useState(null);
+    const [selCourse, setSelCourse] = useState("Select a Course");
+    const [selTopic, setSelTopic] = useState("Select a Topic");
     const location = useLocation();
     const navigate = useNavigate();
     const { uid } = location.state || {};
@@ -20,60 +27,62 @@ const Main = () => {
             navigate("/login");
         } else {
             // Load information
+            if (gradeData) {return};
             getUserData(uid)
                 .then((datajsonResp) => {
-                    setData(datajsonResp);
+                    if (gradeData) {return};
+                    setUserData(datajsonResp);
                     setName(datajsonResp.name || "User");
-                    setGrade(datajsonResp.grade);
-
-                    const gradeData = getGradeData(datajsonResp.grade);
-                    setCourses(gradeData["courses"]);
+                    gradeId = datajsonResp.grade;
+                    
+                    getGradeData(datajsonResp.grade).then(function(givenGradeData){
+                        gradeData = givenGradeData;
+                        setGrade(gradeData["gradeName"]);
+                        courses = gradeData["courses"];
+                        if (courses && courses["ela"]) {
+                            selectedCourseId = "ela";
+                            setSelCourse(courses[selectedCourseId]["courseName"]);
+                            //alert(.courseName);
+                        }
+                        if (selectedCourseId !== null && courses[selectedCourseId]) {
+                            topics = courses[selectedCourseId].topics || {}; 
+                        }
+                    });
                 })
                 .catch((error) => {
                     console.error("Error loading data:", error);
                 });
         }
-    }, [uid, navigate]);
-
-    useEffect(() => {
-        if (courses && courses["ela"]) {
-            setSelectedCourseIndex(courses["ela"]);
-            alert(selectedCourseIndex.courseName);
-        }
-    }, [courses]);
-    
-    useEffect(() => {
-        if (selectedCourseIndex !== null && courses[selectedCourseIndex]?.topics) {
-            setTopics(courses[selectedCourseIndex].topics || []);
-            setSelectedTopicIndex(0); 
-        }
-    }, [selectedCourseIndex, courses]);
+    }, [uid, navigate, gradeData, courses, topics, selectedCourseId]);
 
     const handleCourseSelection = (index) => {
-        alert(index);
         const courseKeys = Object.keys(courses);
-        setSelectedCourseIndex(courseKeys[index]);
+        selectedCourseId = courseKeys[index];
+        setSelCourse(courses[selectedCourseId]["courseName"]);
     };
 
     const handleNextTopic = () => {
-        setSelectedTopicIndex((prev) =>
-            prev + 1 < topics.length ? prev + 1 : 0
-        );
+        if (topics === null) {return}
+        topicIndex = topicIndex + 1 < Object.keys(topics).length ? topicIndex + 1 : 0;
+        selectedTopicId = Object.keys(topics)[topicIndex];
+        setSelTopic(topics[selectedTopicId]["topicName"]);
     };
 
     const handlePreviousTopic = () => {
-        setSelectedTopicIndex((prev) =>
-            prev - 1 >= 0 ? prev - 1 : topics.length - 1
-        );
+        if (topics === null) {return}
+        topicIndex = topicIndex - 1 >= 0 ? topicIndex - 1 : Object.keys(topics).length - 1;
+        selectedTopicId = Object.keys(topics)[topicIndex];
+        setSelTopic(topics[selectedTopicId]["topicName"]);
     };
 
     const handlePlay = () => {
         navigate("/questions", {
             state: {
+                userData,
                 grade,
-                selectedCourseIndex,
-                selectedTopicIndex,
-                questions: courses[selectedCourseIndex]["topic"][selectedTopicIndex]["questions"]
+                selectedCourseId,
+                selectedTopicId,
+                questions: courses[Object.keys(courses)[selectedCourseId]]["topic"][selectedTopicId]["questions"]
             },
         });
     };
@@ -96,8 +105,7 @@ const Main = () => {
                 <div className="header">
                     <button className="menu-button">&#9776;</button>
                     <h1>{grade}</h1>
-                    <h1>{selectedCourseIndex !== null && courses[selectedCourseIndex] ? 
-                    courses[selectedCourseIndex].courseName : 'Select a Course'}</h1>
+                    <h1>{selCourse}</h1>
                     <p className="score">9,325</p>
                     <button className="leaderboard" onClick={leaderboard}>Leaderboard</button>
                     <button className="logout" onClick={logout}>Logout</button>
@@ -113,7 +121,7 @@ const Main = () => {
             <div className="content">
                 <button className="arrow-button left-arrow" onClick={handlePreviousTopic}> &#x276E;</button>
                 <div className="topic-display">
-                    {topics[selectedTopicIndex]?.name || "Select Course for Topics"}
+                    {selTopic}
                 </div>
                 <button className="arrow-button right-arrow" onClick={handleNextTopic}> &#x276F;</button>
             </div>

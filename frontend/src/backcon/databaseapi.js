@@ -17,6 +17,10 @@ async function getUserData(uid){
     return toRet;
 }
 
+async function createNewUserData(uid, name, email, grade, progressData={}){
+    // TO BE IMPLEMENTED. CALL addNewAccount IN authapi.js THEN CALL THIS
+}
+
 // Pass in the grade found in the user data from above
 async function getGradeData(grade){
     const options = {
@@ -55,13 +59,13 @@ async function getQuestion(grade, courseId, topicId, questionId){
 // the selAns property is whichever answer the student has chosen. 
 // Returns whether question was gotten right and marks as complete automatically if so
 // (MARKING AND SAVING OF COMPLETION STILL NOT YET FINISHED)
-async function checkQuestion(grade, courseId, topicId, questionId, questionResponse){
+async function checkQuestion(grade, courseId, topicId, questionId, questionResponse, userId){
     const options = {
         headers: {
             "Content-Type": "application/json",
         },
         method: 'PATCH',
-        body: JSON.stringify(questionResponse)
+        body: JSON.stringify({...questionResponse, uid: userId})
     }
 
     var toRet;
@@ -75,4 +79,8 @@ async function checkQuestion(grade, courseId, topicId, questionId, questionRespo
     return toRet;
 }
 
-export { getUserData, getGradeData, getQuestion, checkQuestion };
+function getTotalPointsFromUserData(userData){
+    // TO BE IMPLEMENTED
+}
+
+export { getUserData, getGradeData, getQuestion, checkQuestion, getTotalPointsFromUserData };

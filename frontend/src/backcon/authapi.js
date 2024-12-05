@@ -1,8 +1,8 @@
 const baseUrl = "http://localhost:3001/api/auth"
 
 // Doesn't work yet
-function addNewUser(email, password, grade) {
-    
+function addNewAccount(email, password) {
+    // TO BE IMPLEMENTED. CALL THIS THEN CALL createNewUserData IN databaseapi.js
 }
 
 async function getUserCred(email, password) {

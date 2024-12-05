@@ -203,7 +203,7 @@ app.patch(`/api/users/:userId`, (req, res) => {
     const userId = req.params.id;
     const userName = req.query.name;
     const userEmail = req.query.email;
-    const userGrade = req.query.grade;    
+    const userGrade = req.query.grade;
 
     var existanceRef = db.ref(`dev/users/${userId}`)
     var newPlaceRef = db.ref("dev/users")
@@ -241,12 +241,29 @@ app.patch(`/api/questions/:grade/:courseId/:topicId/:questId`, (req, res) => {
     var passedData = req.body;
 
     var ref = db.ref(`dev/grades/${grade}/courses/${courseId}/topics/${topicId}/questions/${questId}`)
+    var newPlaceRef = db.ref(`dev/users/${passedData["uid"]}`)
+    
+    var newPointsData = {
+        ["progress"]: {
+            [courseId]: {
+                [topicId]: {
+                    [questId]: {
+                        timePassed: Math.floor(Date.now() / (1000*60*60*24)),
+                        points: 1
+                    }
+                }
+            }
+        }
+    };
 
     ref.get().then(function(dataSnap) {
         //var debData = getDebugDataSnap(dataSnap, req);
         //res.json(debData);
         var dataVal = dataSnap.val();
         var successData = questParsing.checkQuestion(dataVal, passedData);
+        if (successData["passed"]) {
+            newPlaceRef.update(newUserData);
+        }
         res.json(successData);
     });
 });
