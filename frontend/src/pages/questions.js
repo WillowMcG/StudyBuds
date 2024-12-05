@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./questions.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getQuestion } from "../backcon/databaseapi";
+import { checkQuestion, getQuestion } from "../backcon/databaseapi";
 
 var questionsData = [];
 var curQuestion = {};
@@ -48,8 +48,21 @@ const Questions = () => {
     }, [gradeId, selectedCourseId, selectedTopicId, questions, questionsData, curQuestion]);
 
     
-    const handleAnswer = (isCorrect) => {
-        
+    const handleAnswer = (answer) => {
+        curQuestion["selAns"] = answer;
+        const questionId = Object.keys(questions)[index];
+        checkQuestion(grade, selectedCourseId, selectedTopicId, questionId, curQuestion, uid).then(function(givenResp){
+            const ans = givenResp;
+            if (ans.passed == true){
+                setScore(score + 1);
+                setIndex(index + 1);
+                const qIndex = Object.keys(questionsData)[index];
+                curQuestion = questionsData[qIndex];
+                setPrompt(curQuestion.qPrompt);
+            } else {
+                alert("Incorrect, try again!");
+            }
+        });
     };
 
     return (
@@ -58,6 +71,35 @@ const Questions = () => {
             <h2>{selectedCourseId} - {selectedTopicId} Score: {score}</h2>
             <div className="question-prompt">
                 <h3>{prompt}</h3>
+                <div className="answers-grid">
+                    {curQuestion?.ans ? (
+                    curQuestion.ans.map((answer, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => handleAnswer(answer)}
+                            className="answer-button"
+                        >
+                            {answer}
+                        </button>
+                    ))
+                    ) : (
+                    // Defaults
+                    <div className="placeholder-buttons">
+                        <button className="answer-button" disabled>
+                            Default Answer 1
+                        </button>
+                        <button className="answer-button" disabled>
+                            Default Answer 2
+                        </button>
+                        <button className="answer-button" disabled>
+                            Default Answer 3
+                        </button>
+                        <button className="answer-button" disabled>
+                            Default Answer 4
+                        </button>
+                    </div>
+                )}
+                </div>
             </div>
             <div className="progress">
                 Question {index + 1} of {questions.length}

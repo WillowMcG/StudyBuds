@@ -31,11 +31,12 @@ h1, h2, h3 {
 }
 
 .answer-button {
+    width: 48%;
     padding: 15px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #007bff;
-    color: white;
+    background-color: #ffffff;
+    color: black;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -43,7 +44,7 @@ h1, h2, h3 {
 }
 
 .answer-button:hover {
-    background-color: #0056b3;
+    background-color: #a5a5a5;
 }
 
 .progress {
