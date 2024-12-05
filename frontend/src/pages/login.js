@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-import { getUserCred, addNewUser } from "../backcon/authapi";
+import { getUserCred } from "../backcon/authapi";
 import { getUserData } from "./../backcon/databaseapi";
 // import "./../backcon/authapi" Not done
 
