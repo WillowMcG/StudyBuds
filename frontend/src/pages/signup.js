@@ -15,7 +15,6 @@ const Signup = () => {
         //const auth = AuthAccessor(); Not working, keep on tweekin'
         //var val = auth.addNewUser(email, password);
         setData(email)
-        alert(`Your email is '${email}'`);
     };
     return (
         <div class="sign-up-wrapper">

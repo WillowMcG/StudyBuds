@@ -80,6 +80,7 @@ const Main = () => {
             state: {
                 uid,
                 grade,
+                gradeId,
                 selectedCourseId,
                 selectedTopicId,
                 questions: courses[selectedCourseId]["topics"][selectedTopicId]["questions"]

@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getQuestion } from "../backcon/databaseapi";
 
 var questionsData = [];
+var curQuestion = {};
 //var curQuestion;
 
 const Questions = () => {
@@ -11,8 +12,9 @@ const Questions = () => {
     const navigate = useNavigate();
 
     const {
-        questions = [],
+        questions,
         grade,
+        gradeId,
         selectedCourseId,
         selectedTopicId,
         uid,
@@ -20,30 +22,30 @@ const Questions = () => {
 
     const [score, setScore] = useState(0);
     const [index, setIndex] = useState(0);
-    const [curQuestion, setCurQuestion] = useState(null);
     const [prompt, setPrompt] = useState("Loading");
 
     useEffect(() => {
         if (!uid) {
             navigate("/login");
         } else {
-            for (let i = 0; i < questions.length; i++) {
-                const questionId = questions[i];
+            for (let i = 0; i < Object.keys(questions).length; i++) {
+                const questionId = Object.keys(questions)[i];
+                // alert(`${grade}, ${selectedCourseId}, ${selectedTopicId}, ${questionId}`)
                 getQuestion(
-                    grade,
+                    gradeId,
                     selectedCourseId,
                     selectedTopicId,
                     questionId
                 ).then(function(givenQData){
                     questionsData.push(givenQData);
                     const qIndex = Object.keys(questionsData)[index];
-                    setCurQuestion(questionsData[qIndex]);
+                    curQuestion = questionsData[qIndex];
                     setPrompt(curQuestion.qPrompt);
                 });
             }
             
         }
-    }, [grade, selectedCourseId, selectedTopicId, questions, questionsData, curQuestion]);
+    }, [gradeId, selectedCourseId, selectedTopicId, questions, questionsData, curQuestion]);
 
     
     const handleAnswer = (isCorrect) => {
