@@ -1,8 +1,23 @@
 import React from "react";
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import "./leaderboard.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getUserData, getGradeData } from "../backcon/databaseapi";
 
 const Home = () => {
+    const [userData, setUserData] = useState(null);
+    const [name, setName] = useState("");
+    const [grade, setGrade] = useState(null);
+    React.useEffect(() =>{
+        getUserData(uid)
+            .then((datajsonResp) => {
+                //if (gradeData) {return};
+                setUserData(datajsonResp);
+                setName(datajsonResp.name || "User");
+            });
+        //setName(datajsonResp.name || "User");
+    },);
     return (
         /*
             <div className="home-container">
@@ -17,7 +32,7 @@ const Home = () => {
             <h1>Top 5 Students</h1>
             <div className="First">
                 <h2>
-                    <span>1. </span> Student 1
+                    <span>1. </span> Student 1 {name}
                 </h2>
             </div>
             <div className="Points">
