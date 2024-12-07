@@ -28,47 +28,44 @@ const Home = () => {
             <h1>Top 5 Students</h1>
             <div className="First">
                 <h2>
-                    <span>1. </span> Student 1 {name}
+                    <span>1. </span> Test User #105
                 </h2>
             </div>
             <div className="Points">
-                <p>(insert points)</p>
+                <p></p>
             </div>
 
             <div className="Second">
                 <h2>
-                    <span>2. </span> Student 2
+                    <span>2. </span> Test User #104
                 </h2>
             </div>
             <div className="Points">
-                <p>(insert points)</p>
+                <p></p>
             </div>
 
             <div className="Third">
                 <h2>
-                    <span>3. </span> Student 3
+                    <span>3. </span> Test User #103
                 </h2>
             </div>
             <div className="Points">
-                <p>(insert points)</p>
+                <p></p>
             </div>
 
             <div className="RunnerUps">
                 <h2>
-                    <span>4. </span> Student 4
+                    <span>4. </span> Test User #102
                 </h2>
             </div>
             <div className="Points">
-                <p>(insert points)</p>
+                <p></p>
             </div>
 
             <div className="RunnerUps">
                 <h2>
-                    <span>5. </span> Student 5
+                    <span>5. </span> Test User #101
                 </h2>
-            </div>
-            <div className="Points">
-                <p>(insert points)</p>
             </div>
 
             <div className="DotSpace">
@@ -77,7 +74,7 @@ const Home = () => {
 
             <div className="YourScore">
                 <h2>
-                    <span>Rank #. </span> Your Student
+                    <span>Rank #. {name}</span>
                 </h2>
             </div>
         </div>
