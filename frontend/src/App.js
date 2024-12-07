@@ -5,9 +5,13 @@ import {
 } from "react-router-dom";
 
 import './App.css';
-import Home from "./pages";
+import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import Main from "./pages/main";
+import Questions from "./pages/questions"
+import Leaderboard from "./pages/leaderboard"
+import Progress from "./pages/progress"
 
 function App() {
   return (
@@ -15,10 +19,11 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/sign-up"
-          element={<Signup />}
-        />
+        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/questions" element={<Questions />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/progress" element={<Progress />} />
       </Routes>
     </Router>
   );

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
-import { getUserCred, addNewUser } from "../backcon/authapi";
-import { getUserData } from "./../backcon/userapi";
+import { getUserCred } from "../backcon/authapi";
+import { getUserData } from "./../backcon/databaseapi";
 // import "./../backcon/authapi" Not done
 
 // setup taken from https://www.geeksforgeeks.org/how-to-create-a-multi-page-website-using-react-js/
@@ -10,6 +11,7 @@ import { getUserData } from "./../backcon/userapi";
 const Login = () => {
 
     const [data, setData] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         //const email = formData.get("email");
@@ -25,7 +27,8 @@ const Login = () => {
                         credentials: credjsonResp,
                         database: datajsonResp
                     });
-                    alert(`You were found in our database! Hello ${datajsonResp.data.name}!`);
+                    alert(`You were found in our database! Hello ${datajsonResp.name}!`);
+                    navigate("/main", { state: { uid } });
                 }).catch(function(err){
                     setData({
                         credentials: credjsonResp,
@@ -47,7 +50,6 @@ const Login = () => {
         <div class="log-in-wrapper">
             <form onSubmit={handleSubmit}>
                 <h1>Log In to StudyBuds!</h1>
-                {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'No data'}
                 <div class ="input-box">
                     <input name="email" type="text" placeholder="User Email" required />
                 </div>
