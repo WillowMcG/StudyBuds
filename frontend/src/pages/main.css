@@ -60,7 +60,13 @@ body {
     font-size: 18px;
 }
 
-.hidden-navbar .menu-button,
+.hidden-navbar .arrow-button-courses {
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
 
 .hidden-navbar .leaderboard {
     font-size: 18px;

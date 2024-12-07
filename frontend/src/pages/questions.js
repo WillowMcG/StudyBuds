@@ -104,7 +104,7 @@ const Questions = () => {
                 </div>
             </div>
             <div className="progress">
-                Question {index + 1} of {questions.length}
+                Question {index + 1}
             </div>
         </div>
     );
