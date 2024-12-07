@@ -8,16 +8,21 @@ const Home = () => {
 
     const [userData, setUserData] = useState(null);
     const [name, setName] = useState("");
-    const [grade, setGrade] = useState(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const {
+        uid,
+        grade,
+    } = location.state || {};
+
     React.useEffect(() =>{
         getUserData(uid)
             .then((datajsonResp) => {
-                //if (gradeData) {return};
                 setUserData(datajsonResp);
                 setName(datajsonResp.name || "User");
             });
         //setName(datajsonResp.name || "User");
-    },);
+    });
     return (
         <div className="leaderboard-wrapper">
             <h1>Top 5 Students</h1>

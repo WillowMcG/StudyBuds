@@ -57,7 +57,7 @@ const Questions = () => {
             if (ans.passed == true){
                 setScore(score + 1);
                 setIndex(index + 1);
-                const qIndex = Object.keys(questionsData)[index];
+                const qIndex = Object.keys(questionsData)[index+1];
                 curQuestion = questionsData[qIndex];
                 setPrompt(curQuestion.qPrompt);
                 alert("Correct!");
@@ -104,7 +104,7 @@ const Questions = () => {
                 </div>
             </div>
             <div className="progress">
-                Question {index + 1} of {questions.length}
+                Question {index + 1}
             </div>
         </div>
     );

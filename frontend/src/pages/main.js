@@ -56,10 +56,12 @@ const Main = () => {
         }
     }, [uid, navigate, gradeData, courses, topics, selectedCourseId]);
 
-    const handleCourseSelection = (index) => {
-        const courseKeys = Object.keys(courses);
-        selectedCourseId = courseKeys[index];
+    const handleCourseSelection = () => {
+        if (courses === null) {return}
+        courseIndex = courseIndex + 1 < Object.keys(courses).length ? courseIndex + 1 : 0;
+        selectedCourseId = Object.keys(courses)[courseIndex];
         setSelCourse(courses[selectedCourseId]["courseName"]);
+        topics = courses[selectedCourseId].topics || {}; 
     };
 
     const handleNextTopic = () => {
@@ -105,21 +107,13 @@ const Main = () => {
         <div className="main-container">
             <nav className="hidden-navbar">
                 <div className="header">
-                    <button className="menu-button">&#9776;</button>
                     <h1>{grade}</h1>
-                    <h1>{selCourse}</h1>
+                    <button className="arrow-button-courses" onClick={handleCourseSelection}>{selCourse} &#x276F;</button>
                     <p className="score">9,325</p>
                     <button className="leaderboard" onClick={leaderboard}>Leaderboard</button>
                     <button className="logout" onClick={logout}>Logout</button>
                 </div>
             </nav>
-            <div className="menu-dropdown">
-                <ul>
-                    {Object.keys((course, index) => (
-                        <li key={index} onClick={() => handleCourseSelection(index)}> {course.name}</li>
-                    ))}
-                </ul>
-            </div>
             <div className="content">
                 <button className="arrow-button left-arrow" onClick={handlePreviousTopic}> &#x276E;</button>
                 <div className="topic-display">
