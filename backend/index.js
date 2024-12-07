@@ -159,6 +159,73 @@ app.get(`/api/courses/:grade`, (req, res) => {
     
 });
 
+app.get(`/api/topicPercent/:userId/:courseId/:topicId`, (req, res) => {
+    const userId = req.params.userId;
+    const courseId = req.params.courseId;
+    const topicId = req.params.topicId;
+
+    var userRef = db.ref(`dev/users/${userId}`)
+    //console.log(ref.once("value"))
+
+    userRef.get().then(function(dataSnap) {
+        //var debData = getDebugDataSnap(dataSnap, req);
+        //res.json(debData);
+        var dataVal = dataSnap.val();
+        var grade = dataVal["grade"];
+
+        if(!dataVal["progress"] || !dataVal["progress"][courseId] || !dataVal["progress"][courseId][topicId]) {
+            res.json({percent: 0});
+        }
+
+        if ((questionCache[grade] != null) && (questionCache[grade]["time"] + (15*60*1000) > Date.now())) {
+            // This just gets data from that question
+            
+            var gradeVal = questionCache[grade];
+            console.log(JSON.stringify(gradeVal));
+            // Delete all question data from 
+            var success = 0;
+            var total = 0;
+
+            for (let qId in gradeVal["courses"][courseId]["topics"][topicId]["questions"]) {
+                if (dataVal["progress"][courseId][topicId][qId]) {
+                    success++;
+                }
+                total++;
+            }
+    
+            res.json({percent: (Math.floor((success/total)*100))});
+    
+        } else {
+            ref = db.ref(`dev/grades/${grade}`)
+            ref.get().then(function(dataSnap) {
+                //var debData = getDebugDataSnap(dataSnap, req);
+                //res.json(debData);
+                var gradeVal = dataSnap.val(); // THIS HAS A LOT, CLEANING IT HERE
+    
+                questionCache[grade] = { ["time"]: Date.now(), ...structuredClone(gradeVal) };
+    
+                var success = 0;
+                var total = 0;
+
+                for (let qId in gradeVal["courses"][courseId]["topics"][topicId]["questions"]) {
+                    if (dataVal["progress"][courseId][topicId][qId]) {
+                        success++;
+                    }
+                    total++;
+                }
+
+                res.json({percent: (Math.floor((success/total)*100))});
+            })
+        }
+
+
+        //res.json(dataVal);
+    })
+
+    
+    
+});
+
 app.get(`/api/questions/:grade/:courseId/:topicId/:questId`, (req, res) => {
     const grade = req.params.grade;
     const courseId = req.params.courseId;
