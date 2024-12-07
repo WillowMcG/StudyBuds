@@ -73,6 +73,23 @@ async function getQuestion(grade, courseId, topicId, questionId){
     return toRet;
 }
 
+// returns just {percent: (whole number percent from 0 to 100)}
+async function getPercentOfTopicDone(userId, courseId, topicId){
+    const options = {
+        method: 'GET'
+    }
+
+    var toRet;
+    try{
+        const response = await fetch(`${baseUrl}topicPercent/${userId}/${courseId}/${topicId}`, options);
+        toRet = await response.json();
+    } catch (err) {
+        toRet = err;
+    }
+    
+    return toRet;
+}
+
 // questionResponse is just a given questionData from above with a selAns property
 // the selAns property is whichever answer the student has chosen. 
 // Returns whether question was gotten right and marks as complete automatically if so
@@ -97,8 +114,4 @@ async function checkQuestion(grade, courseId, topicId, questionId, questionRespo
     return toRet;
 }
 
-function getTotalPointsFromUserData(userData){
-    // TO BE IMPLEMENTED
-}
-
-export { getUserData, createNewUserData, getGradeData, getQuestion, checkQuestion, getTotalPointsFromUserData };
+export { getUserData, createNewUserData, getGradeData, getQuestion, checkQuestion, getPercentOfTopicDone };
