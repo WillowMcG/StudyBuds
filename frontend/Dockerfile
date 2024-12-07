@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
+RUN npm install react-scripts react-router-dom
+
 COPY . .
 
 RUN npm run build
