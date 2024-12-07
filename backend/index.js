@@ -173,8 +173,9 @@ app.get(`/api/topicPercent/:userId/:courseId/:topicId`, (req, res) => {
         var dataVal = dataSnap.val();
         var grade = dataVal["grade"];
 
-        if(!dataVal["progress"] || !dataVal["progress"][courseId] || !dataVal["progress"][courseId][topicId]) {
+        if(undefined === dataVal["progress"] || undefined === dataVal["progress"][courseId] || undefined === dataVal["progress"][courseId][topicId]) {
             res.json({percent: 0});
+            return;
         }
 
         if ((questionCache[grade] != null) && (questionCache[grade]["time"] + (15*60*1000) > Date.now())) {

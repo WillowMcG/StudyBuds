@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./progress.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getUserData, getGradeData } from "../backcon/databaseapi";
+import { getUserData, getGradeData, getPercentOfTopicDone } from "../backcon/databaseapi";
 
 var courseIndex = 0;
 var topicIndex = 0;
@@ -21,6 +21,7 @@ const Progress = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { uid } = location.state || {};
+    const [completion, setComplete] = useState(0);
 
     React.useEffect(() => {
         if (!uid) {
@@ -68,6 +69,10 @@ const Progress = () => {
         topicIndex = topicIndex + 1 < Object.keys(topics).length ? topicIndex + 1 : 0;
         selectedTopicId = Object.keys(topics)[topicIndex];
         setSelTopic(topics[selectedTopicId]["topicName"]);
+        alert(selectedTopicId);
+        getPercentOfTopicDone(uid, selectedCourseId, selectedTopicId).then(function(givenPercent){
+            setComplete(givenPercent.percent);
+        });
     };
 
     const handlePreviousTopic = () => {
@@ -75,6 +80,10 @@ const Progress = () => {
         topicIndex = topicIndex - 1 >= 0 ? topicIndex - 1 : Object.keys(topics).length - 1;
         selectedTopicId = Object.keys(topics)[topicIndex];
         setSelTopic(topics[selectedTopicId]["topicName"]);
+        alert(selectedTopicId);
+        getPercentOfTopicDone(uid, selectedCourseId, selectedTopicId).then(function(givenPercent){
+            setComplete(givenPercent.percent);
+        });
     };
 
     return (
@@ -88,7 +97,7 @@ const Progress = () => {
                 </div>
                 <button className="arrow-button right-arrow" onClick={handleNextTopic}> &#x276F;</button>
             </div>
-            <h2>Progress data here</h2>
+            <h2>Topic is {typeof completion === "number" ? completion : 0}% completed!</h2>
         </div>
     );
 };
