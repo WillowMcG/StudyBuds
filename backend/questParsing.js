@@ -45,9 +45,11 @@ module.exports = {
                 var qVal = structuredClone(questData["qVal"]);
                 delete questData["corAns"];
                 delete questData["qVal"];
+                console.log(JSON.stringify(qVal));
 
-                for (let i = 0; i < Object.keys(qVal); i++) {
+                for (let i = 0; i < Object.keys(qVal).length; i++) {
                     const qKey = Object.keys(qVal)[i];
+                    console.log(questData["qPrompt"]);
                     questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed));
                 }
 
@@ -110,10 +112,7 @@ module.exports = {
                 delete questData["incAns"];
                 delete questData["qVal"];
 
-                for (let i = 0; i < Object.keys(qVal); i++) {
-                    const qKey = Object.keys(qVal)[i];
-                    questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed));
-                }
+                questData["qPrompt"] = questData["qPrompt"].replace('x', getRandomEntry(qVal, seed));
 
                 questData["seed"] = seed;
                 
@@ -135,14 +134,14 @@ module.exports = {
                 delete questData["qVal"];
 
                 questData["qPrompt"] = getRandomEntry(questData["qPrompt"], seed);
-                for (let i = 0; i < Object.keys(qVal); i++) {
+                for (let i = 0; i < Object.keys(qVal).length; i++) {
                     const qKey = Object.keys(qVal)[i];
                     questData["qPrompt"] = questData["qPrompt"].replace(qKey, getRandomEntry(qVal[qKey], seed+1));
                 }
 
                 questData["seed"] = seed;
                 
-                questData["ans"] = [getRandomEntry(getRandomEntry(corAns, seed+1), seed), ...getRandomEntry(incAns, seed)];
+                questData["ans"] = [getRandomEntry(getRandomEntry(corAns, seed), seed+1), ...getRandomEntry(incAns, seed)];
 
                 shuffleArray(questData["ans"], seed);
                 
@@ -206,7 +205,7 @@ module.exports = {
                 var selAns = structuredClone(questAnswered["selAns"]);
                 var corAns = structuredClone(oldQuestData["corAns"]);
 
-                const multispecmcsol = getRandomEntry(getRandomEntry(corAns, seed+1), seed);
+                const multispecmcsol = getRandomEntry(getRandomEntry(corAns, seed), seed+1);
 
                 return {
                     passed: multispecmcsol == selAns,
