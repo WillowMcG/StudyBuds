@@ -69,7 +69,6 @@ const Progress = () => {
         topicIndex = topicIndex + 1 < Object.keys(topics).length ? topicIndex + 1 : 0;
         selectedTopicId = Object.keys(topics)[topicIndex];
         setSelTopic(topics[selectedTopicId]["topicName"]);
-        alert(selectedTopicId);
         getPercentOfTopicDone(uid, selectedCourseId, selectedTopicId).then(function(givenPercent){
             setComplete(givenPercent.percent);
         });
@@ -80,7 +79,6 @@ const Progress = () => {
         topicIndex = topicIndex - 1 >= 0 ? topicIndex - 1 : Object.keys(topics).length - 1;
         selectedTopicId = Object.keys(topics)[topicIndex];
         setSelTopic(topics[selectedTopicId]["topicName"]);
-        alert(selectedTopicId);
         getPercentOfTopicDone(uid, selectedCourseId, selectedTopicId).then(function(givenPercent){
             setComplete(givenPercent.percent);
         });
