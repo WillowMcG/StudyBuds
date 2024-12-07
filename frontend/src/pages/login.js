@@ -50,7 +50,6 @@ const Login = () => {
         <div class="log-in-wrapper">
             <form onSubmit={handleSubmit}>
                 <h1>Log In to StudyBuds!</h1>
-                {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'No data'}
                 <div class ="input-box">
                     <input name="email" type="text" placeholder="User Email" required />
                 </div>
