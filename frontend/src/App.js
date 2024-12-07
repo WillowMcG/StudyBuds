@@ -11,6 +11,7 @@ import Signup from "./pages/signup";
 import Main from "./pages/main";
 import Questions from "./pages/questions"
 import Leaderboard from "./pages/leaderboard"
+import Progress from "./pages/progress"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/progress" element={<Progress />} />
       </Routes>
     </Router>
   );
