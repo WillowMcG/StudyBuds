@@ -182,7 +182,6 @@ app.get(`/api/topicPercent/:userId/:courseId/:topicId`, (req, res) => {
             // This just gets data from that question
             
             var gradeVal = questionCache[grade];
-            console.log(JSON.stringify(gradeVal));
             // Delete all question data from 
             var success = 0;
             var total = 0;

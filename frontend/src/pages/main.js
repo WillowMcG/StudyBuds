@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./main.css";
 import flower from "./flower.png";
+import tree from "./tree.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getUserData, getGradeData } from "../backcon/databaseapi";
+import { getUserData, getGradeData, getPercentOfTopicDone } from "../backcon/databaseapi";
 
 var courseIndex = 0;
 var topicIndex = 0;
@@ -22,6 +23,8 @@ const Main = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { uid } = location.state || {};
+    const [image, setImage] = useState(flower);
+    const [completion, setComplete] = useState(0);
 
     React.useEffect(() => {
         if (!uid) {
@@ -69,6 +72,15 @@ const Main = () => {
         topicIndex = topicIndex + 1 < Object.keys(topics).length ? topicIndex + 1 : 0;
         selectedTopicId = Object.keys(topics)[topicIndex];
         setSelTopic(topics[selectedTopicId]["topicName"]);
+        getPercentOfTopicDone(uid, selectedCourseId, selectedTopicId).then(function(givenPercent){
+            setComplete(givenPercent.percent);
+            if (completion > 19){
+                setImage(tree);
+            }
+            else{
+                setImage(flower);
+            }
+        });
     };
 
     const handlePreviousTopic = () => {
@@ -76,6 +88,15 @@ const Main = () => {
         topicIndex = topicIndex - 1 >= 0 ? topicIndex - 1 : Object.keys(topics).length - 1;
         selectedTopicId = Object.keys(topics)[topicIndex];
         setSelTopic(topics[selectedTopicId]["topicName"]);
+        getPercentOfTopicDone(uid, selectedCourseId, selectedTopicId).then(function(givenPercent){
+            setComplete(givenPercent.percent);
+            if (completion > 19){
+                setImage(tree);
+            }
+            else{
+                setImage(flower);
+            }
+        });
     };
 
     const handlePlay = () => {
@@ -130,7 +151,7 @@ const Main = () => {
                 <button className="arrow-button right-arrow" onClick={handleNextTopic}> &#x276F;</button>
             </div>
             <h1>Hello {name}</h1>
-            <img src={flower} alt="Question Visual" className="question-image" />
+            <img src={image} alt="Question Visual" className="question-image" />
             <button className="play-button" onClick={handlePlay}> Play </button>
         </div>
     );
